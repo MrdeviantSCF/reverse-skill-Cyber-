@@ -1,0 +1,27 @@
+{
+  "name": "reverse-skill-cyber-",
+  "version": "1.0.0",
+  "description": "<p align=\"center\">   <img src=\"reverse-skill.png\" alt=\"reverse-skill\" width=\"140\" /> </p> <h1 align=\"center\">reverse-skill</h1> <h3 align=\"center\">Cybersecurity Skills Router · 逆向技能路由包</h3>",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs",
+    "example": "examples"
+  },
+  "scripts": {
+    "dev": "node server.js",
+    "start": "node server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MrdeviantSCF/reverse-skill-Cyber-.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/MrdeviantSCF/reverse-skill-Cyber-/issues"
+  },
+  "homepage": "https://github.com/MrdeviantSCF/reverse-skill-Cyber-#readme"
+}

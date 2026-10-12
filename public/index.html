@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>reverse-skill // Cybersecurity Skills Router</title>
+  <meta name="description" content="Cybersecurity Skills Router & Interactive Analysis Dashboard - reverse-skill platform">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="index.css">
+  <link rel="icon" type="image/png" href="reverse-skill.png">
+</head>
+<body>
+  <!-- Ambient background glow layers -->
+  <div class="cyber-grid-bg"></div>
+  <div class="radial-glow glow-cyan"></div>
+  <div class="radial-glow glow-purple"></div>
+
+  <header class="app-header">
+    <div class="header-brand">
+      <div class="brand-avatar">
+        <img src="reverse-skill.png" alt="reverse-skill logo" id="brand-logo" onerror="this.style.display='none'">
+        <div class="brand-badge-pulse"></div>
+      </div>
+      <div class="brand-text">
+        <div class="brand-title-wrap">
+          <h1 class="brand-title">REVERSE-SKILL</h1>
+          <span class="brand-version-tag">v1.0.1</span>
+        </div>
+        <p class="brand-subtitle">Cybersecurity Skills Router · 逆向技能路由平台</p>
+      </div>
+    </div>
+
+    <!-- HUD Status Panel -->
+    <div class="hud-status">
+      <div class="hud-item">
+        <span class="hud-label">SERVER STATUS</span>
+        <span class="hud-value status-live"><span class="pulse-dot"></span> LIVE // LOCALHOST:3000</span>
+      </div>
+      <div class="hud-item">
+        <span class="hud-label">SKILLS LOADED</span>
+        <span class="hud-value text-cyan" id="stat-skills">49</span>
+      </div>
+      <div class="hud-item">
+        <span class="hud-label">CTF SUITES</span>
+        <span class="hud-value text-purple" id="stat-ctf">42</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Navigation Tabs -->
+  <nav class="nav-tabs">
+    <button class="nav-tab-btn active" data-tab="tab-router" id="tab-btn-router">
+      <span class="tab-icon">🎯</span> Master Route Simulator
+    </button>
+    <button class="nav-tab-btn" data-tab="tab-skills" id="tab-btn-skills">
+      <span class="tab-icon">⚡</span> Skills Matrix (<span id="tab-skills-count">49</span>)
+    </button>
+    <button class="nav-tab-btn" data-tab="tab-ctf" id="tab-btn-ctf">
+      <span class="tab-icon">🏴‍☠️</span> CTF Orchestrator (<span id="tab-ctf-count">42</span>)
+    </button>
+    <button class="nav-tab-btn" data-tab="tab-scope" id="tab-btn-scope">
+      <span class="tab-icon">🛡️</span> Scope Guard & Case Init
+    </button>
+    <button class="nav-tab-btn" data-tab="tab-quickref" id="tab-btn-quickref">
+      <span class="tab-icon">⚡</span> Quick Reference & CLI
+    </button>
+  </nav>
+
+  <main class="main-content">
+    <!-- TAB 1: MASTER ROUTE SIMULATOR -->
+    <section id="tab-router" class="tab-pane active">
+      <div class="pane-hero">
+        <h2 class="section-title">Master Route Inference Engine</h2>
+        <p class="section-desc">
+          Test real-time regex scoring against <code>skills/config/routing.json</code>. Determine the exact PRIMARY skill, toolchain, and command execution path for any target task.
+        </p>
+      </div>
+
+      <div class="router-tester-card glass-panel">
+        <label for="route-input" class="input-label">ENTER TARGET DESCRIPTION, TASK PROMPT, OR ARTIFACT NAME:</label>
+        <div class="input-row">
+          <input type="text" id="route-input" class="cyber-input" placeholder="e.g. Reverse Android APK root detection and SSL certificate pinning bypass..." autocomplete="off">
+          <button id="btn-route-analyze" class="cyber-btn btn-primary">
+            <span class="btn-text">INFER ROUTE</span> <span>⚡</span>
+          </button>
+        </div>
+
+        <!-- Quick Preset Chips -->
+        <div class="preset-chips">
+          <span class="preset-label">QUICK PRESETS:</span>
+          <button class="chip" data-query="APK reverse root detect and certificate pinning bypass">Android APK Pinning</button>
+          <button class="chip" data-query="Disassemble x64 ELF native binary in IDA Pro to find password">IDA x64 Binary</button>
+          <button class="chip" data-query="Decrypt frontend webpack JS signature and HTTP request capture">JS Webpack Crypto</button>
+          <button class="chip" data-query="CTF competition AWD pwn binary heap challenge">CTF AWD Pwn</button>
+          <button class="chip" data-query="Audit Kubernetes RBAC and AWS cloud metadata SSRF escape">Cloud K8s SSRF</button>
+          <button class="chip" data-query="Active Directory Kerberoasting and NTLM relay chain">Windows AD Kerberos</button>
+        </div>
+      </div>
+
+      <!-- Route Analysis Result Display -->
+      <div id="route-result-container" class="route-result-wrap" style="display: none;">
+        <div class="result-grid">
+          <div class="result-card primary-match glass-panel glow-cyan-border">
+            <div class="card-header-badge">
+              <span class="badge-tag tag-primary">PRIMARY ROUTE HIT</span>
+              <span class="badge-score" id="res-score-badge">SCORE: 1</span>
+            </div>
+            <h3 class="result-title" id="res-route-label">APK reverse</h3>
+            <div class="result-meta">
+              <span class="meta-item">Route ID: <strong id="res-route-id" class="text-cyan">R1</strong></span>
+              <span class="meta-item">Skill Target: <code id="res-route-skill">apk-reverse/SKILL.md</code></span>
+            </div>
+
+            <div class="rule-match-box">
+              <span class="sub-label">MATCHED RULES & KEYWORDS:</span>
+              <div id="res-match-tags" class="match-tags-list"></div>
+            </div>
+
+            <div class="action-box">
+              <span class="sub-label">RECOMMENDED CLI EXECUTION:</span>
+              <div class="code-copy-row">
+                <code id="res-cli-cmd">powershell -NoProfile -ExecutionPolicy Bypass -File skills/scripts/master-route.ps1 -Hint "..."</code>
+                <button class="btn-copy" onclick="copyText('res-cli-cmd')">Copy</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="result-card candidate-breakdown glass-panel">
+            <h4 class="card-subtitle">Scoring & Candidate Matrix</h4>
+            <div id="res-candidates-list" class="candidates-list"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 2: SKILLS MATRIX -->
+    <section id="tab-skills" class="tab-pane">
+      <div class="pane-hero">
+        <h2 class="section-title">Cybersecurity Skills Matrix</h2>
+        <p class="section-desc">Browse and inspect all 49+ specialized workflows in the reverse-skill router.</p>
+      </div>
+
+      <div class="skills-filter-bar glass-panel">
+        <div class="search-wrap">
+          <input type="text" id="skills-search-input" class="cyber-input search-input" placeholder="Search skills by name, tag, or description...">
+        </div>
+        <div class="category-pills" id="skills-category-filters">
+          <button class="pill active" data-cat="all">All (<span id="cat-count-all">0</span>)</button>
+          <button class="pill" data-cat="reverse">Reverse Engineering</button>
+          <button class="pill" data-cat="binary">Binary & Decompile</button>
+          <button class="pill" data-cat="mobile">Mobile & App</button>
+          <button class="pill" data-cat="pentest">Pentest & Web</button>
+          <button class="pill" data-cat="infra">Cloud & AD</button>
+          <button class="pill" data-cat="forensics">Forensics & Blue</button>
+        </div>
+      </div>
+
+      <div id="skills-grid" class="skills-grid">
+        <!-- Rendered dynamically via JS -->
+      </div>
+    </section>
+
+    <!-- TAB 3: CTF SANDBOX ORCHESTRATOR -->
+    <section id="tab-ctf" class="tab-pane">
+      <div class="pane-hero">
+        <h2 class="section-title">CTF Sandbox Orchestrator</h2>
+        <p class="section-desc">42 modular competition environments and automated attack-defense challenge orchestrators.</p>
+      </div>
+
+      <div class="ctf-filter-bar glass-panel">
+        <input type="text" id="ctf-search-input" class="cyber-input search-input" placeholder="Filter CTF challenges (e.g. reverse, pwn, kerberos, ssrf)...">
+        <div class="category-pills" id="ctf-category-filters">
+          <button class="pill active" data-ctf-cat="all">All Suites</button>
+          <button class="pill" data-ctf-cat="Binary & Crypto">Binary & Crypto</button>
+          <button class="pill" data-ctf-cat="Web Security">Web Security</button>
+          <button class="pill" data-ctf-cat="Enterprise & AD">Enterprise & AD</button>
+          <button class="pill" data-ctf-cat="Cloud & DevOps">Cloud & DevOps</button>
+          <button class="pill" data-ctf-cat="Mobile">Mobile</button>
+          <button class="pill" data-ctf-cat="Forensics & Network">Forensics & Network</button>
+        </div>
+      </div>
+
+      <div id="ctf-grid" class="ctf-grid">
+        <!-- Rendered dynamically via JS -->
+      </div>
+    </section>
+
+    <!-- TAB 4: SCOPE GUARD & CASE INIT -->
+    <section id="tab-scope" class="tab-pane">
+      <div class="pane-hero">
+        <h2 class="section-title">Scope Guard & Case Initiator</h2>
+        <p class="section-desc">
+          Enforces <code>RULES.md</code> authorization gates. Strict adherence: <code>auth.status=granted</code> and verified scope required before entering <code>ACT</code> phase.
+        </p>
+      </div>
+
+      <div class="scope-builder-grid">
+        <div class="glass-panel scope-form-card">
+          <h3 class="card-title text-cyan">New Target Scope Initialization</h3>
+          <form id="scope-form" onsubmit="event.preventDefault(); generateScopeOutput();">
+            <div class="form-group">
+              <label class="form-label" for="case-name">Case Identifier / Target Name</label>
+              <input type="text" id="case-name" class="cyber-input" value="target-app-re" required>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="target-type">Target Profile</label>
+              <select id="target-type" class="cyber-select">
+                <option value="offline-sample">Offline Local Binary/APK (Offline Sample Preset)</option>
+                <option value="authorized-pentest">Authorized Pentest Assessment</option>
+                <option value="ctf-challenge">CTF / AWD Competition Sandbox</option>
+                <option value="api-service">Authorized API Endpoint Assessment</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="auth-status">Authorization Status</label>
+              <select id="auth-status" class="cyber-select">
+                <option value="granted">granted (Explicit Authorization Confirmed)</option>
+                <option value="pending">pending (Hold Action - Dry Run Only)</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="case-hint">Initial Mission Statement</label>
+              <textarea id="case-hint" class="cyber-textarea" rows="3">Reverse engineer binary architecture, extract crypto keys, verify signature validation.</textarea>
+            </div>
+
+            <button type="submit" class="cyber-btn btn-primary full-width">GENERATE SCOPE.MD SPECIFICATION</button>
+          </form>
+        </div>
+
+        <div class="glass-panel scope-preview-card">
+          <div class="card-header-flex">
+            <h3 class="card-title text-purple">Generated scope.md Preview</h3>
+            <button class="btn-copy" onclick="copyText('scope-output-code')">Copy Markdown</button>
+          </div>
+          <pre class="code-preview"><code id="scope-output-code"># Scope specification will generate here...</code></pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 5: QUICK REF & CLI -->
+    <section id="tab-quickref" class="tab-pane">
+      <div class="pane-hero">
+        <h2 class="section-title">CLI Quick Reference & Toolchain</h2>
+        <p class="section-desc">Common commands for Windows, Linux, and Kali environments.</p>
+      </div>
+
+      <div class="quickref-grid">
+        <div class="glass-panel command-card">
+          <h3 class="text-cyan">1. Primary Master Routing</h3>
+          <p class="card-hint">Route any cybersecurity task to its exact scenario skill:</p>
+          <div class="cmd-block">
+            <span class="cmd-os">Windows (PowerShell)</span>
+            <code>powershell -NoProfile -ExecutionPolicy Bypass -File skills/scripts/master-route.ps1 -Hint "&lt;Task&gt;"</code>
+          </div>
+          <div class="cmd-block">
+            <span class="cmd-os">Linux / macOS / Kali</span>
+            <code>bash skills/scripts/master-route.sh --hint "&lt;Task&gt;"</code>
+          </div>
+        </div>
+
+        <div class="glass-panel command-card">
+          <h3 class="text-purple">2. Scope & Case Initialization</h3>
+          <p class="card-hint">Initialize work/&lt;case&gt;/scope.md before performing any action:</p>
+          <div class="cmd-block">
+            <span class="cmd-os">Windows (PowerShell)</span>
+            <code>powershell -File skills/scripts/case-init.ps1 -Hint "&lt;Task&gt;"</code>
+          </div>
+          <div class="cmd-block">
+            <span class="cmd-os">Linux / macOS / Kali</span>
+            <code>bash skills/scripts/case-init.sh --hint "&lt;Task&gt;"</code>
+          </div>
+        </div>
+
+        <div class="glass-panel command-card">
+          <h3 class="text-cyan">3. Tool Index Refresh & Bootstrap</h3>
+          <p class="card-hint">Detect installed tools and missing dependencies:</p>
+          <div class="cmd-block">
+            <span class="cmd-os">Windows Refresh Tool Index</span>
+            <code>powershell -NoProfile -ExecutionPolicy Bypass -File skills/scripts/refresh-tool-index.ps1</code>
+          </div>
+          <div class="cmd-block">
+            <span class="cmd-os">Windows Bootstrap Tools</span>
+            <code>powershell -NoProfile -ExecutionPolicy Bypass -File skills/scripts/bootstrap-reverse.ps1</code>
+          </div>
+        </div>
+
+        <div class="glass-panel command-card">
+          <h3 class="text-emerald">4. Verification & Coherence Tests</h3>
+          <p class="card-hint">Run test suites to verify routing parity:</p>
+          <div class="cmd-block">
+            <span class="cmd-os">Verify Routing Coherence</span>
+            <code>powershell -NoProfile -ExecutionPolicy Bypass -File skills/scripts/verify-routing-coherence.ps1</code>
+          </div>
+          <div class="cmd-block">
+            <span class="cmd-os">Run Routing Tests</span>
+            <code>powershell -NoProfile -ExecutionPolicy Bypass -File skills/scripts/test-routing.ps1</code>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Toast Notification -->
+  <div id="toast" class="toast">Copied to clipboard!</div>
+
+  <footer class="app-footer">
+    <p>reverse-skill Platform · <a href="https://github.com/MrdeviantSCF/reverse-skill-Cyber-" target="_blank">GitHub Repository</a> · Local Dev Server on <code>http://localhost:3000</code></p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
